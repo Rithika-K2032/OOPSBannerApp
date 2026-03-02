@@ -1,101 +1,47 @@
+import java.util.HashMap;
 public class OOPSBannerApp {
-    static class CharacterPatternMap {
-        private final Character character;
-        private final String[] pattern;
-        public CharacterPatternMap(Character character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
-        public Character getCharacter() {
-            return character;
-        }
-
-        public String[] getPattern() {
-            return pattern;
-        }
-    }
-    public static CharacterPatternMap[] createCharacterPatternMaps() {
-
-        String[] oPattern = {
+    public static HashMap<Character, String[]> createCharacterMap() {
+        HashMap<Character, String[]> charMap = new HashMap<>();
+        charMap.put('O', new String[]{
                 " ***** ",
                 "*     *",
                 "*     *",
                 "*     *",
-                "*     *",
-                "*     *",
                 " ***** "
-        };
-        String[] pPattern = {
+        });
+                charMap.put('P', new String[]{
                 "****** ",
                 "*     *",
-                "*     *",
                 "****** ",
-                "*      ",
                 "*      ",
                 "*      "
-        };
-        String[] sPattern = {
+        });
+        charMap.put('S', new String[]{
                 " ***** ",
                 "*      ",
-                "*      ",
                 " ***** ",
-                "      *",
                 "      *",
                 " ***** "
-        };
-
-        String[] spacePattern = {
-                "   ",
-                "   ",
-                "   ",
-                "   ",
-                "   ",
-                "   ",
-                "   "
-        };
-        return new CharacterPatternMap[]{
-                new CharacterPatternMap('O', oPattern),
-                new CharacterPatternMap('P', pPattern),
-                new CharacterPatternMap('S', sPattern),
-                new CharacterPatternMap(' ', spacePattern)
-        };
+        });
+        return charMap;
     }
-    public static String[] getCharacterPattern(char ch, CharacterPatternMap[] charMaps) {
-
-        for (CharacterPatternMap map : charMaps) {
-            if (map.getCharacter() == Character.toUpperCase(ch)) {
-                return map.getPattern();
+    public static void displayBanner(String message,
+                                     HashMap<Character, String[]> charMap) {
+        int patternHeight = charMap.get('O').length;
+        for (int line = 0; line < patternHeight; line++) {
+            StringBuilder sb = new StringBuilder();
+            for (char ch : message.toCharArray()) {
+                String[] pattern = charMap.get(ch);
+                if (pattern != null) {
+                    sb.append(pattern[line]).append("  ");
+                }
             }
-        }
-
-        // fallback to space pattern
-        for (CharacterPatternMap map : charMaps) {
-            if (map.getCharacter() == ' ') {
-                return map.getPattern();
-            }
-        }
-
-        return new String[7]; 
-    }
-    public static void printMessage(String message, CharacterPatternMap[] charMaps) {
-
-        final int HEIGHT = 7;
-
-        for (int row = 0; row < HEIGHT; row++) {
-
-            StringBuilder lineBuilder = new StringBuilder();
-
-            for (int i = 0; i < message.length(); i++) {
-                String[] pattern = getCharacterPattern(message.charAt(i), charMaps);
-                lineBuilder.append(pattern[row]).append("  ");
-            }
-
-            System.out.println(lineBuilder);
+            System.out.println(sb.toString());
         }
     }
     public static void main(String[] args) {
-        CharacterPatternMap[] charMaps = createCharacterPatternMaps();
+        HashMap<Character, String[]> charMap = createCharacterMap();
         String message = "OOPS";
-        printMessage(message, charMaps);
+        displayBanner(message, charMap);
     }
 }
