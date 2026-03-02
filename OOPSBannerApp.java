@@ -1,3 +1,4 @@
+//uc7
 public class OOPSBannerApp {
     static class CharacterPatternMap {
         private final Character character;
@@ -9,7 +10,6 @@ public class OOPSBannerApp {
         public Character getCharacter() {
             return character;
         }
-
         public String[] getPattern() {
             return pattern;
         }
